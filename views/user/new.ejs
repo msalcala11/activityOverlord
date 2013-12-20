@@ -15,10 +15,10 @@
 	<input type="text" class="form-control" placeholder="your name" name="name">
 	<input type="text" class="form-control" placeholder="your title" name="title">
 	<input type="text" class="form-control" placeholder="email address" name="email">
-	<input type="password" class="form-control" placeholder="password" name="password">
+	<input id="password" type="password" class="form-control" placeholder="password" name="password">
 	<input type="password" class="form-control" placeholder="password confirmation" name="confirmation">
 
 	<br />
-	<input type="submit" class="btn btn-lg btn-primary btn-block" value="Create Account" />
+	<input id="submitButton" type="submit" class="btn btn-lg btn-primary btn-block" value="Create Account" />
 	<input type="hidden" name-"_csrf" value="<%= _csrf %>" />
 </form>

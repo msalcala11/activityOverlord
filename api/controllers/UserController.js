@@ -19,9 +19,9 @@ module.exports = {
     
   	// This loads the sign-up page --> new.ejs
 	new: function(req, res){
-		res.locals.flash = _.clone(req.session.flash);
+		//res.locals.flash = _.clone(req.session.flash);
 		res.view(); //returens new.ejs (I guess its just smart like that - it looks for a file that mathces the name of the route)
-		req.session.flash = {};
+		//req.session.flash = {};
 	},	
 
 	create: function(req, res){
@@ -47,10 +47,25 @@ module.exports = {
 
 			// After successfully creating the user
 			// redirect to the show action
-			res.json(user);
-			req.session.flash = {};
+			//res.json(user);
+
+			res.redirect('user/show/'+user.id);
+		});
+	},
+
+	// render the profile view (e.g. /views/show.ejs)
+	show: function(req, res, next) {
+		User.findOne(req.param('id'), function foundUser(err, user) {
+			if (err) return next(err);
+			if(!user) return next();
+
+			res.view({
+				user: user
+			});
 		});
 	}
+
+	
 
 
   /**
