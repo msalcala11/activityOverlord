@@ -19,7 +19,9 @@ module.exports = {
     
   	// This loads the sign-up page --> new.ejs
 	new: function(req, res){
+		res.locals.flash = _.clone(req.session.flash);
 		res.view(); //returens new.ejs (I guess its just smart like that - it looks for a file that mathces the name of the route)
+		req.session.flash = {};
 	},	
 
 	create: function(req, res){
@@ -27,11 +29,26 @@ module.exports = {
 		User.create(req.params.all(), function userCreated(err, user){
 
 			// If there's an error
-			if (err) return next(err);
+			//if (err) return next(err);
+			if (err) {
+				console.log(err);
+				req.session.flash = {
+					err: err
+				}
+
+				
+
+
+				// If error redirect back to sign-up page
+				return res.redirect('user/new');
+			}
+
+
 
 			// After successfully creating the user
 			// redirect to the show action
 			res.json(user);
+			req.session.flash = {};
 		});
 	}
 
