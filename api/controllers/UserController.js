@@ -49,6 +49,9 @@ module.exports = {
 			// redirect to the show action
 			//res.json(user);
 
+			req.session.authenticated = true;
+			req.session.User = user;
+
 			res.redirect('user/show/'+user.id);
 		});
 	},
@@ -108,9 +111,20 @@ module.exports = {
 			if(err) return next(err);
 			if(!user) return next('User doesn\'t exist.');
 
+
 			User.destroy(req.param('id'), function userDestroyed(err, user) {
 				if (err) return next(err);
 			});
+
+			console.log(req.param('id'));
+			console.log(req.session.User.id);
+			console.log(req.param('id') === req.session.User.id);
+
+			//if the user is deleting himself, then we need to log him out as well
+			if(req.param('id') == req.session.User.id){
+				res.redirect('/session/destroy');
+				return;
+			}
 
 			res.redirect('/user/index');
 
