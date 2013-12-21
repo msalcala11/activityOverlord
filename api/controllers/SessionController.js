@@ -78,7 +78,9 @@
  	},
 
  	destroy: function(req, res){
+
 		req.session.destroy();
+
 		res.redirect('/session/new');
 	}
  }

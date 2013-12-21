@@ -36,15 +36,86 @@
 
   <body>
 
+  <nav class="navbar navbar-default navbar-fixed-top navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/"> activityOverlord</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <% if(session.authenticated) { %>
+      <li><a href="/user/show/<%= session.User.id %>"><%= session.User.name %></a></li>
+      <li class="active"><a href="/user/index">User Administration</a></li>
+      <% } %>
+      <!--<li><a href="#">Link</a></li>-->
+    </ul>
+
+    <% if(!session.authenticated) { %>
+    <form class="navbar-form navbar-right" role="search" action="/session/create">
+      <div class="form-group">
+        <input type="email" name="email" class="form-control" placeholder="Email" style="width: 100px;">
+        <input type="password" name="password" class="form-control" placeholder="Password" style="width: 100px;">
+      </div>
+      <button type="submit" class="btn btn-success" style="margin-left: 4px;">Sign-in</button>
+      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+    </form>
+    <% } else { %>
+      <a href="/session/destroy" class="btn btn-primary navbar-btn navbar-right">Sign-out</a>
+    <% } %>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+<!--
     <div class="navbar navbar-inverse navbar-fixed-top navbar-fixed-top">
       <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
         <a class="navbar-brand" href="/"> activityOverlord</a>
       </div>
-    </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <% if (session.authenticated) { %>
+            <li class="active"><a href="/user/show<% session.User.id %>"><%= session.User.name %> </a> </li>
+            <li><a href-"/user">User Administration</a></li>
+            <li><a href="#">Placeholder2</a></li>
+          <% } %>
+        </ul>
+        <div class="navbar-right">
+          <%if (session.authenticated) { %>
+            <a class="btn btn-default navbar-btn navbar-right" href="/session/destroy">sign-out</a>a
+          <% } %>
+        </div>
+        <% if (!session.authenticated) { %>
+          <form class="navbar-form navbar-right" action="/session/create">
+          <div class-"form-group">
+            <input type="text" placeholder="Email" name="email" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" name="password" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-success">Sign in</button>
+          <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+        </form>
+        <% } %>
+      </div>
+      </div>
+    </div> -->
     <%- body %>
 
     <div class="container">
-      <br/>
+      <hr>
         <footer class="footer pull-right">
           <a href="http://sailsjs.com/">sails.js</a>
           <div>Powered by sails.js. With special thanks to Irl Nathan for putting together a tutorial.</div>
