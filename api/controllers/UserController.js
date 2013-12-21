@@ -68,7 +68,6 @@ module.exports = {
 	index: function(req, res, next) {
 
 		// Get an array of all users in the User collection (e.g. table)
-
 		User.find(function foundUsers (err, users) {
 			if(err) return next(err);
 			//pass the array down to the /views/index.ejs page
@@ -84,9 +83,6 @@ module.exports = {
 		User.findOne(req.param('id'), function foundUser(err, user) {
 			if(err) return next(err);
 			if(!user) return next('User doesn\'t exist.');
-
-			console.log("made it past edit conditionals");
-			console.log(user.name);
 
 			res.view({
 				user: user
