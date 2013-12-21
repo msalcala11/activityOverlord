@@ -67,20 +67,50 @@
  					return;
  				}
 
- 				//Lets log authenticate them
+ 				//Lets authenticate them
  				req.session.authenticated = true;
  				req.session.User = user;
 
- 				//Lets take them to their profile page
- 				res.redirect('user/show/' + user.id);
+ 				//Change user status to online
+ 				user.online = true;
+				user.save(function(err, user) {
+					if (err) return next(err);
+
+					// After successfully creating the user
+					// redirect to the show action
+					if (req.session.User.admin) 
+
+					// If the user is an admin, take them to the user administration page after login
+	 				if(req.session.User.admin) {
+	 					res.redirect('user/index');
+	 					return;
+	 				}
+
+	 				//Lets take them to their profile page
+ 					res.redirect('user/show/' + user.id);
+				});		
+	
  			});
  		});
  	},
 
  	destroy: function(req, res){
 
-		req.session.destroy();
+ 		User.findOne(req.session.User.id, function foundUser(err, user){
+ 			var userId = req.session.User.id;
 
-		res.redirect('/session/new');
+ 			// The user is "logging out" (e.g. destroying the session) so change the online attribute to false
+ 			User.update(userId, {
+ 				online: false
+ 			}, function(err) {
+ 				if (err) return next(err);
+
+ 				// Wipe out the session (log out)
+ 				req.session.destroy();
+
+ 				//Redirect to the sign-in screen
+				res.redirect('/session/new');
+ 			});
+ 		});
 	}
  }

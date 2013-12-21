@@ -43,16 +43,20 @@ module.exports = {
 				return res.redirect('user/new');
 			}
 
-
-
-			// After successfully creating the user
-			// redirect to the show action
-			//res.json(user);
-
 			req.session.authenticated = true;
 			req.session.User = user;
 
-			res.redirect('user/show/'+user.id);
+			//req.session.User.online = true; why cant we do this?
+
+			user.Online = true;
+			user.save(function(err, user) {
+				if (err) return next(err);
+
+				// After successfully creating the user
+				// redirect to the show action
+
+				res.redirect('user/show/'+user.id);
+			});		
 		});
 	},
 

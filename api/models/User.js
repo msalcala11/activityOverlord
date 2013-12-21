@@ -32,6 +32,16 @@ module.exports = {
     	unique: true
     },
 
+    online: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
+    admin: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
     encryptedPassword: {
     	type: 'string'
     },
