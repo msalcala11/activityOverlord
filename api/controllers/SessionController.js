@@ -103,26 +103,36 @@
  		User.findOne(req.session.User.id, function foundUser(err, user){
  			var userId = req.session.User.id;
 
- 			// The user is "logging out" (e.g. destroying the session) so change the online attribute to false
- 			User.update(userId, {
- 				online: false
- 			}, function(err) {
- 				if (err) return next(err);
+ 			if(user){// Lets check to make sure the user has not been deleted by an admin immediately before clicking sign-out
+	 			// The user is "logging out" (e.g. destroying the session) so change the online attribute to false
+	 			User.update(userId, {
+	 				online: false
+	 			}, function(err) {
+	 				if (err) return next(err);
 
-				//Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
-				User.publishUpdate(user.id, {
-					loggedIn: false,
-					id: user.id,
-					name: user.name,
-					action: ' has logged out.'
-				});
+					//Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
+					User.publishUpdate(user.id, {
+						loggedIn: false,
+						id: user.id,
+						name: user.name,
+						action: ' has logged out.'
+					});
+			
 
+	 				// Wipe out the session (log out)
+	 				req.session.destroy();
+
+	 				//Redirect to the sign-in screen
+					res.redirect('/session/new');
+ 				});
+ 			} else { // The user must have been deleted by an admin while logged in 
  				// Wipe out the session (log out)
- 				req.session.destroy();
+	 				req.session.destroy();
 
- 				//Redirect to the sign-in screen
-				res.redirect('/session/new');
- 			});
+	 				//Redirect to the sign-in screen
+					res.redirect('/session/new');
+ 			}
+
  		});
 	}
  }
