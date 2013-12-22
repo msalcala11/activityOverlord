@@ -12,5 +12,19 @@ module.exports.bootstrap = function (cb) {
 
   // It's very important to trigger this callack method when you are finished 
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
-  cb();
+
+
+//We need to make sure all users login states are set to false each time the server starts
+  User.update({}, { //because I pass in an empty object, all users will be updated (its like a filter)
+  		online: false
+  	},
+  	function userUpdated(err, users) {
+  		if (err) {
+  			console.log(err);
+  		} else {
+  			//console.log(users);
+  		}
+  		cb();
+  	}
+  )
 };

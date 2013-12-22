@@ -1,19 +1,4 @@
-<div class="container">
-	<h3 id="heading">Users</h3>
-	<table class='table'>
-		<tr>
-			<th></th>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Title</th>
-			<th>Email</th>
-			<th></th>
-			<th></th>
-			<th></th>
-		</tr>
-
-		<% _.each(users, function(user) { %>
-		<tr data-id="<% user.id %>" data-model="user">
+<tr data-id="<% user.id %>" data-model="user">
 			<% if (user.online) { %>
 				<td><img id="<%= user.id %>" src="/images/online.png"></td>
 			<% } else { %>
@@ -42,8 +27,3 @@
 			<!-- note this is a bad way to delete a user since it uses a GET request
 			<td><a href="/user/destroy/<%= user.id %>" class="btn btn-sm btn-danger">Delete</a></td> -->
 		</tr>
-
-		<% }) %>
-	</table>
-</div>
-		

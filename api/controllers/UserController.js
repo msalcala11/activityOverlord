@@ -52,6 +52,10 @@ module.exports = {
 			user.save(function(err, user) {
 				if (err) return next(err);
 
+				//Let other subscribed sockets know that the user was created
+				User.publishCreate(user);
+
+
 				// After successfully creating the user
 				// redirect to the show action
 
@@ -116,13 +120,11 @@ module.exports = {
 			if(!user) return next('User doesn\'t exist.');
 
 
-			User.destroy(req.param('id'), function userDestroyed(err, user) {
+			User.destroy(req.param('id'), function userDestroyed(err) {
 				if (err) return next(err);
-			});
 
-			console.log(req.param('id'));
-			console.log(req.session.User.id);
-			console.log(req.param('id') === req.session.User.id);
+				User.publishDestroy(user.id);
+			});
 
 			//if the user is deleting himself, then we need to log him out as well
 			if(req.param('id') == req.session.User.id){

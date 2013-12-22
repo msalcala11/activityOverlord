@@ -78,7 +78,7 @@
 
 					//Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
 					User.publishUpdate(user.id, {
-						loggedIn: true,
+						loggedIn: true, 
 						id: user.id
 					});
 
