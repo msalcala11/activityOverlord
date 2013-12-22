@@ -53,6 +53,8 @@ module.exports = {
 				if (err) return next(err);
 
 				//Let other subscribed sockets know that the user was created
+				//Lets also add the action message to the user object to be displayed as a flash when a user is created
+				user.action = " signed-up and logged-in.";
 				User.publishCreate(user);
 
 
@@ -122,6 +124,11 @@ module.exports = {
 
 			User.destroy(req.param('id'), function userDestroyed(err) {
 				if (err) return next(err);
+
+				User.publishUpdate(user.id, {
+					name: user.name,
+					action: ' has been deleted.'
+				});
 
 				User.publishDestroy(user.id);
 			});

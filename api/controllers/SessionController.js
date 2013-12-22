@@ -79,7 +79,9 @@
 					//Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
 					User.publishUpdate(user.id, {
 						loggedIn: true, 
-						id: user.id
+						id: user.id,
+						name: user.name,
+						action: ' has logged in.'
 					});
 
 					// If the user is an admin, take them to the user administration page after login
@@ -110,7 +112,9 @@
 				//Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
 				User.publishUpdate(user.id, {
 					loggedIn: false,
-					id: user.id
+					id: user.id,
+					name: user.name,
+					action: ' has logged out.'
 				});
 
  				// Wipe out the session (log out)

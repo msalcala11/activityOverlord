@@ -85,7 +85,18 @@ function cometMessageReceivedFromServer(message) {
   if(message.model === 'user') {
     var userId = message.id;
     updateUserInDom(userId, message); //updateUserInDom is a custom method
+
+    if(message.verb !== "destroy") {
+      displayFlashActivity(message);
+    }
   }
+}
+
+function displayFlashActivity(message) {
+  console.log("made it into displayFlashActivity");
+  $('#chatAudio')[0].play();
+  $(".navbar").after("<div class='alert alert-success'>" + message.data.name + message.data.action +  "</div");
+  $(".alert").fadeOut(5000);
 }
 
 function updateUserInDom(userId, message) {
