@@ -15,22 +15,22 @@ module.exports.session = {
   // Session secret is automatically generated when your new app is created
   // Replace at your own risk in production-- you will invalidate the cookies of your users,
   // forcing them to log in again. 
-  secret: '870db8295e85ceaf701ae38ab3d90ce2'
+  secret: '870db8295e85ceaf701ae38ab3d90ce2',
 
 
   // In production, uncomment the following lines to set up a shared redis session store
   // that can be shared across multiple Sails.js servers
-  // adapter: 'redis',
+  adapter: 'redis',
   //
   // The following values are optional, if no options are set a redis instance running
   // on localhost is expected.
   // Read more about options at: https://github.com/visionmedia/connect-redis
   //
-  // host: 'localhost',
-  // port: 6379,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
   // ttl: <redis session TTL in seconds>,
-  // db: 0,
-  // pass: <redis auth password>
+  db: process.env.REDIS_DB_NAME,
+  pass: process.env.REDIS_PASSWORD
   // prefix: 'sess:'
 
 
