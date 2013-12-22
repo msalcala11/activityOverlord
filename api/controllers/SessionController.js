@@ -76,9 +76,11 @@
 				user.save(function(err, user) {
 					if (err) return next(err);
 
-					// After successfully creating the user
-					// redirect to the show action
-					if (req.session.User.admin) 
+					//Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
+					User.publishUpdate(user.id, {
+						loggedIn: true,
+						id: user.id
+					});
 
 					// If the user is an admin, take them to the user administration page after login
 	 				if(req.session.User.admin) {
@@ -104,6 +106,12 @@
  				online: false
  			}, function(err) {
  				if (err) return next(err);
+
+				//Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
+				User.publishUpdate(user.id, {
+					loggedIn: false,
+					id: user.id
+				});
 
  				// Wipe out the session (log out)
  				req.session.destroy();

@@ -48,7 +48,7 @@ module.exports = {
 
 			//req.session.User.online = true; why cant we do this?
 
-			user.Online = true;
+			user.online = true;
 			user.save(function(err, user) {
 				if (err) return next(err);
 
@@ -132,6 +132,22 @@ module.exports = {
 
 			res.redirect('/user/index');
 
+		});
+	},
+
+	subscribe: function(req, res, next) {
+
+		User.find(function foundUser(err, users) {
+			if (err) return next(err);
+
+			//subscribe user to model class room
+			User.subscribe(req.socket);
+
+			//subscribe user to the model instance room
+			User.subscribe(req.socket, users);
+
+			//this will avoid a warning from the socket for trying to render HTML over the socket
+			res.send(200);
 		});
 	}
 };

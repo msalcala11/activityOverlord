@@ -21,6 +21,7 @@ module.exports.policies = {
   user: {
   	'new': 'flash', 
   	'create': 'flash', //means we want the UserController's 'new' and 'create' actions (i.e. sign-up page) to continue to use the flash policy
+  	'subscribe': 'flash', //subscribes the user to the user model class and instance rooms
   	'index': 'adminOnly', //we want all of the other actions in UserController to follow the authenticated policy (i.e. you must be authenticated to access the other routes)
   	'*': 'anyoneAuthenticated'
 	}

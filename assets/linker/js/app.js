@@ -18,6 +18,8 @@
 
   socket.on('connect', function socketConnected() {
 
+    console.log("This is from the connect: " + this.socket.sessionid);
+
     // Listen for Comet messages from Sails
     socket.on('message', function messageReceived(message) {
 
@@ -30,6 +32,9 @@
       //////////////////////////////////////////////////////
 
     });
+
+    // Subscribe to the user model class room and instance room
+    socket.get('/user/subscribe');
 
 
     ///////////////////////////////////////////////////////////
