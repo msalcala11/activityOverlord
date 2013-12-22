@@ -14,6 +14,16 @@
 
 module.exports.adapters = {
 
+//format of URL postgres://user:password@host:port/dbname
+    'default': 'postgresql',
+
+    postgresql: {
+      module: 'sails-postgresql',
+      url: process.env.DB_URL,
+      pool: false,
+
+      schema: true
+    }
   // // If you leave the adapter config unspecified 
   // // in a model definition, 'default' will be used.
   // 'default': 'disk',
